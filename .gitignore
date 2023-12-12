@@ -8,6 +8,7 @@
 
 # testing
 /coverage
+/RestClient
 
 # next.js
 /.next/
