@@ -1,6 +1,7 @@
 import { auth } from "@clerk/nextjs";
 import prismadb from "@/lib/prismadb";
 import { redirect } from "next/navigation";
+import Navbar from "@/components/navbar";
 
 export default async function AdminPanelLayout({
   children,
@@ -13,6 +14,7 @@ export default async function AdminPanelLayout({
 
   if (!userId) redirect('/');
 
+  //validar que el usuario tenga acceso al store
   const store = await prismadb.store.findFirst({
     where: {
       id: params.storeId,
@@ -24,6 +26,7 @@ export default async function AdminPanelLayout({
 
   return (
     <>
+      <Navbar />
       {children}
     </>
   )
