@@ -53,13 +53,13 @@ const CarteleraForm: React.FC<CarteleraFormProps> = ({
 
   })
 
-  const onSubmit = async (data: CarteleraFormValues) => {
+  const onSubmit = async (values: CarteleraFormValues) => {
     try {
       setLoading(true);
       if (!data) {
-        await axios.post(`/api/${params.storeId}/carteleras`, data);
+        await axios.post(`/api/${params.storeId}/carteleras`, values);
       } else {
-        await axios.patch(`/api/${params.storeId}/carteleras/${params.carteleraId}`, data);
+        await axios.patch(`/api/${params.storeId}/carteleras/${params.carteleraId}`, values);
       }
       router.refresh();
       router.push(`/${params.storeId}/carteleras`);
@@ -149,7 +149,7 @@ const CarteleraForm: React.FC<CarteleraFormProps> = ({
               )}
             />
           </div>
-          <Button type="submit">{action}</Button>
+          <Button type="submit" disabled={loading}>{action}</Button>
         </form>
       </Form>
 
