@@ -58,11 +58,11 @@ const CarteleraForm: React.FC<CarteleraFormProps> = ({
       setLoading(true);
       if (!data) {
         await axios.post(`/api/${params.storeId}/carteleras`, data);
-      } else{
+      } else {
         await axios.patch(`/api/${params.storeId}/carteleras/${params.carteleraId}`, data);
       }
       router.refresh();
-      router.push(`/${params.storeId}/billboards`);
+      router.push(`/${params.storeId}/carteleras`);
       toast.success(toastMessage);
     } catch (error) {
       toast.error("Algo salió mal, vuelva a intentarlo.");
@@ -71,12 +71,27 @@ const CarteleraForm: React.FC<CarteleraFormProps> = ({
     }
   }
 
+  const onDelete = async () => {
+    try {
+      setLoading(true);
+      await axios.delete(`/api/${params.storeId}/carteleras/${params.carteleraId}`);
+      router.refresh();
+      router.push(`/${params.storeId}/carteleras`);
+      toast.success("Cartelera eliminada con éxito.");
+    } catch (error) {
+      toast.error("Primero elimina todos los intrumentos que usan esta cartelera.");
+    } finally {
+      setLoading(false);
+      setOpen(false);
+    }
+  }
+
   return (
     <>
       <DeleteModal
         isOpen={open}
         onClose={() => setOpen(false)}
-        onConfirm={() => { }}
+        onConfirm={onDelete}
         loading={loading}
       />
       <div className="flex justify-between items-center">
