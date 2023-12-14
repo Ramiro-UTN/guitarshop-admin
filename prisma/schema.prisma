@@ -12,7 +12,118 @@ datasource db {
 }
 
 model Store {
-  id     String @id @default(uuid())
-  name   String
-  userId String
+  id           String        @id @default(uuid())
+  name         String
+  userId       String
+  carteleras   Cartelera[]
+  instrumentos Instrumento[]
+  formatos     Formato[]
+  maderas      Madera[]
+  tipos        Tipo[]
+  productos    Producto[]
+}
+
+model Cartelera {
+  id           String        @id @default(uuid())
+  storeId      String
+  store        Store         @relation(fields: [storeId], references: [id])
+  label        String
+  imageUrl     String
+  instrumentos Instrumento[]
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+
+  @@index([storeId])
+}
+
+model Instrumento {
+  id          String     @id @default(uuid())
+  storeId     String
+  store       Store      @relation(fields: [storeId], references: [id])
+  carteleraId String
+  cartelera   Cartelera  @relation(fields: [carteleraId], references: [id])
+  name        String
+  tipos       Tipo[]
+  productos   Producto[]
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+
+  @@index([storeId])
+  @@index([carteleraId])
+}
+
+model Tipo {
+  id            String      @id @default(uuid())
+  storeId       String
+  store         Store       @relation(fields: [storeId], references: [id])
+  instrumentoId String
+  intrumento    Instrumento @relation(fields: [instrumentoId], references: [id])
+  productos     Producto[]
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+
+  @@index([storeId])
+  @@index([instrumentoId])
+}
+
+model Formato {
+  id        String     @id @default(uuid())
+  storeId   String
+  store     Store      @relation(fields: [storeId], references: [id])
+  name      String
+  productos Producto[]
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+
+  @@index([storeId])
+}
+
+model Madera {
+  id        String   @id @default(uuid())
+  storeId   String
+  store     Store    @relation(fields: [storeId], references: [id])
+  name      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([storeId])
+}
+
+model Producto {
+  id            String      @id @default(uuid())
+  storeId       String
+  store         Store       @relation(fields: [storeId], references: [id])
+  name          String
+  instrumentoId String
+  instrumento   Instrumento @relation(fields: [instrumentoId], references: [id])
+  tipoId        String
+  tipo          Tipo        @relation(fields: [tipoId], references: [id])
+  formatoId     String
+  formato       Formato     @relation(fields: [formatoId], references: [id])
+  fondo         String
+  tapa          String
+  aros          String
+  diapason      String
+  puente        String
+  mastil        String
+  price         Decimal
+  images        Image[]
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+
+  @@index([storeId])
+  @@index([instrumentoId])
+  @@index([tipoId])
+  @@index([formatoId])
+}
+
+model Image {
+  id         String   @id @default(uuid())
+  productoId String
+  producto   Producto @relation(fields: [productoId], references: [id], onDelete: Cascade)
+  url        String
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@index([productoId])
 }
