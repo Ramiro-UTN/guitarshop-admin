@@ -1,13 +1,28 @@
+import prismadb from "@/lib/prismadb";
 import Carteleras from "./components/carteleras";
 
-const CartelerasPage = () => {
-  return ( 
+const CartelerasPage = async ({
+  params
+}: {
+  params: { storeId: string }
+}) => {
+  const carteleras = await prismadb.cartelera.findMany({
+    where: {
+      storeId: params.storeId,
+    },
+    orderBy: {
+      createdAt: 'desc'
+    }
+  });
+  console.log("CAARTELERAS: ",carteleras);
+
+  return (
     <div className="flex-col">
       <div className="p-8 pt-6 ">
-        <Carteleras />
+        <Carteleras data={carteleras} />
       </div>
     </div>
-   );
+  );
 }
- 
+
 export default CartelerasPage;
