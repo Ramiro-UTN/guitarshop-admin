@@ -10,9 +10,9 @@ export async function POST(
     //verificar usuario
     const { userId } = auth();
     const body = await req.json();
-   
+
     const { label, imageUrl } = body;
-   
+
 
     if (!userId) {
       return new NextResponse("Unauthorized", { status: 401 });
@@ -53,6 +53,30 @@ export async function POST(
 
   } catch (error) {
     console.log('CARTELERAS_POST', error);
+    return new NextResponse("Internal error", { status: 500 });
+  }
+}
+
+export async function GET(
+  req: Request,
+  { params }: { params: { storeId: string } }
+) {
+  try {
+    if (!params.storeId) {
+      return new NextResponse("Store ID is required", { status: 400 });
+    }
+
+    const carteleras = await prismadb.cartelera.findMany({
+      where: {
+        storeId: params.storeId
+      }
+    });
+
+
+    return NextResponse.json(carteleras);
+
+  } catch (error) {
+    console.log("[CARTELERAS_GET]", error);
     return new NextResponse("Internal error", { status: 500 });
   }
 }

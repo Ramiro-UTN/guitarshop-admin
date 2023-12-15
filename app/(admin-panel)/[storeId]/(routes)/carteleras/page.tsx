@@ -14,7 +14,7 @@ const CartelerasPage = async ({
       createdAt: 'desc'
     }
   });
-  console.log("CAARTELERAS: ",carteleras);
+  
 
   return (
     <div className="flex-col">
