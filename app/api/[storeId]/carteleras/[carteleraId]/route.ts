@@ -7,7 +7,7 @@ export async function GET(
   { params }: { params: { carteleraId: string } }
 ) {
   try {
-   
+
     if (!params.carteleraId) {
       return new NextResponse("CarteleraId is required", { status: 400 });
     }
@@ -62,6 +62,60 @@ export async function DELETE(
 
   } catch (error) {
     console.log('[CARTELERA_DELETE]', error);
+    return new NextResponse("Internal error", { status: 500 });
+  }
+
+}
+
+export async function PATCH(
+  req: Request,
+  { params }: { params: { storeId: string, carteleraId: string } }
+) {
+  try {
+    const { userId } = auth();
+    const body = await req.json();
+
+    const { label, imageUrl } = body;
+
+    if (!userId) {
+      return new NextResponse("Unauthenticated", { status: 401 });
+    }
+
+    if (!label) {
+      return new NextResponse("Label is required", { status: 400 });
+    }
+    if (!imageUrl) {
+      return new NextResponse("Image URL is required", { status: 400 });
+    }
+
+    if (!params.carteleraId) {
+      return new NextResponse("CarteleraId is required", { status: 400 });
+    }
+
+    const storeByUserId = await prismadb.store.findFirst({
+      where: {
+        id: params.storeId,
+        userId
+      }
+    });
+
+    if (!storeByUserId) {
+      return new NextResponse("Unauthorized", { status: 403 });
+    }
+
+    const cartelera = await prismadb.cartelera.updateMany({
+      where: {
+        id: params.carteleraId,
+      },
+      data: {
+        label,
+        imageUrl
+      }
+    });
+    return NextResponse.json(cartelera);
+
+  } catch (error) {
+    console.log('[CARTELERA_PATCH]', error);
     return new NextResponse("Internal error", { status: 500 });
   }
 
