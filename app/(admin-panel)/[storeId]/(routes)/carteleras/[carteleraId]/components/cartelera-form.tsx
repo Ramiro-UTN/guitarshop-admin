@@ -76,8 +76,8 @@ const CarteleraForm: React.FC<CarteleraFormProps> = ({
     try {
       setLoading(true);
       await axios.delete(`/api/${params.storeId}/carteleras/${params.carteleraId}`);
-      router.refresh();
       router.push(`/${params.storeId}/carteleras`);
+      router.refresh();
       toast.success("Cartelera eliminada con éxito.");
     } catch (error) {
       toast.error("Primero elimina todos los intrumentos que usan esta cartelera.");
@@ -138,7 +138,7 @@ const CarteleraForm: React.FC<CarteleraFormProps> = ({
               name="label"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Nombre</FormLabel>
+                  <FormLabel>Etiqueta</FormLabel>
                   <FormControl>
                     <Input placeholder="cartelera..." {...field} />
                   </FormControl>

@@ -1,5 +1,6 @@
 import prismadb from "@/lib/prismadb";
 import Carteleras from "./components/carteleras";
+import { CarteleraColumn } from "./components/columns";
 
 const CartelerasPage = async ({
   params
@@ -14,12 +15,18 @@ const CartelerasPage = async ({
       createdAt: 'desc'
     }
   });
-  
+
+  const formattedCarteleras: CarteleraColumn[] = carteleras.map((cartelera) => ({
+    id: cartelera.id,
+    label: cartelera.label,
+    createdAt: cartelera.createdAt.toLocaleString('es',{year:'numeric', month:'long', day:'numeric'})
+
+  }));
 
   return (
     <div className="flex-col">
       <div className="p-8 pt-6 ">
-        <Carteleras data={carteleras} />
+        <Carteleras data={formattedCarteleras} />
       </div>
     </div>
   );

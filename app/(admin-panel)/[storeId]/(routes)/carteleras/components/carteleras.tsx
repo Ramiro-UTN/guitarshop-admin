@@ -4,10 +4,12 @@ import Heading from "@/components/ui/heading";
 import { Button } from "@/components/ui/button";
 import { Plus } from "lucide-react";
 import { useParams, useRouter } from "next/navigation";
-import { Cartelera } from "@prisma/client";
+import { CarteleraColumn, columns } from "./columns";
+import { Separator } from "@/components/ui/separator";
+import { DataTable } from "@/components/ui/data-table";
 
 interface CartelerasProps {
-  data: Cartelera[]
+  data: CarteleraColumn[]
 
 }
 
@@ -18,7 +20,7 @@ const Carteleras: React.FC<CartelerasProps> = (
   }) => {
   const router = useRouter();
   const params = useParams();
-  
+
   return (
     <>
       <div className="flex justify-between items-center border-b">
@@ -28,6 +30,7 @@ const Carteleras: React.FC<CartelerasProps> = (
           Crear nueva
         </Button>
       </div>
+      <DataTable columns={columns} data={data} searchKey="label" />
 
     </>
   );
