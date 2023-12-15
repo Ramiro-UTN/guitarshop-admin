@@ -19,6 +19,7 @@ const CartelerasPage = async ({
   const formattedCarteleras: CarteleraColumn[] = carteleras.map((cartelera) => ({
     id: cartelera.id,
     label: cartelera.label,
+    imageUrl: cartelera.imageUrl,
     createdAt: cartelera.createdAt.toLocaleString('es',{year:'numeric', month:'long', day:'numeric'})
 
   }));
