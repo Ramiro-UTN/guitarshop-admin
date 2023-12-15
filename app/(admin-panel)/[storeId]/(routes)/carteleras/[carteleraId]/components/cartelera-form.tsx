@@ -61,8 +61,9 @@ const CarteleraForm: React.FC<CarteleraFormProps> = ({
       } else {
         await axios.patch(`/api/${params.storeId}/carteleras/${params.carteleraId}`, values);
       }
-      router.refresh();
+
       router.push(`/${params.storeId}/carteleras`);
+      router.refresh();
       toast.success(toastMessage);
     } catch (error) {
       toast.error("Algo salió mal, vuelva a intentarlo.");
