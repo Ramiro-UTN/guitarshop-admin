@@ -38,7 +38,7 @@ const ImageDisplay: React.FC<ImageDisplayProps> = ({
               onClick={() => setIsOpen(true)}
             />
           </TooltipTrigger>
-          <TooltipContent side="bottom">
+          <TooltipContent side="left" sideOffset={10}>
             <p>Expandir</p>
           </TooltipContent>
         </Tooltip>
