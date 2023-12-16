@@ -1,8 +1,10 @@
 "use client"
 
-import { ColumnDef } from "@tanstack/react-table"
-import { CellAction } from "./cell-action"
-import Image from "next/image"
+import { ColumnDef } from "@tanstack/react-table";
+import { CellAction } from "./cell-action";
+import Image from "next/image";
+import ImageModal from "@/components/ui/image-modal";
+import ImageDisplay from "./image-display";
 
 
 export type CarteleraColumn = {
@@ -20,7 +22,7 @@ export const columns: ColumnDef<CarteleraColumn>[] = [
   {
     accessorKey: "imageUrl",
     header: "Imagen",
-    cell: ({row}) => <Image alt="Imagen" height={50} width={50} src={row.original.imageUrl}/>
+    cell: ({ row }) => <ImageDisplay data={row.original} />
   },
   {
     accessorKey: "createdAt",
@@ -28,6 +30,6 @@ export const columns: ColumnDef<CarteleraColumn>[] = [
   },
   {
     id: "actions",
-    cell: ({row}) => <CellAction data={row.original} />
+    cell: ({ row }) => <CellAction data={row.original} />
   }
 ]
