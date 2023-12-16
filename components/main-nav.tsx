@@ -19,7 +19,7 @@ const MainNav = () => {
       active: pathname === `/${params.storeId}/carteleras`
     },
     {
-      href: `/${params.storeId}/intrumentos`,
+      href: `/${params.storeId}/instrumentos`,
       label: "Instrumentos",
       active: pathname === `/${params.storeId}/instrumentos`
     },
