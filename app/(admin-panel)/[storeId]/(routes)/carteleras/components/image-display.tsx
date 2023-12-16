@@ -3,6 +3,14 @@ import Image from "next/image";
 import ImageModal from "@/components/ui/image-modal";
 import { useState } from "react";
 
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip"
+
+
 interface ImageDisplayProps {
   data: CarteleraColumn;
 }
@@ -18,14 +26,25 @@ const ImageDisplay: React.FC<ImageDisplayProps> = ({
         isOpen={isOpen}
         onClose={() => setIsOpen(false)}
       />
-      <Image
-        className="cursor-pointer hover:scale-110 transition"
-        width={50}
-        height={50}
-        alt="Image"
-        src={data.imageUrl}
-        onClick={() => setIsOpen(true)}
-      />
+      <TooltipProvider>
+        <Tooltip>
+          <TooltipTrigger>
+            <Image
+              className="cursor-pointer hover:scale-110 transition"
+              width={50}
+              height={50}
+              alt="Image"
+              src={data.imageUrl}
+              onClick={() => setIsOpen(true)}
+            />
+          </TooltipTrigger>
+          <TooltipContent side="bottom">
+            <p>Expandir</p>
+          </TooltipContent>
+        </Tooltip>
+      </TooltipProvider>
+
+
     </>
   );
 }
