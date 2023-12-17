@@ -1,7 +1,7 @@
 import prismadb from "@/lib/prismadb";
 import InstrumentoForm from "./components/instrumento-form";
 
-const CarteleraPage = async ({
+const InstrumentoPage = async ({
   params
 }: {
   params: { carteleraId: string, instrumentoId: string }
@@ -28,4 +28,4 @@ const CarteleraPage = async ({
   );
 }
 
-export default CarteleraPage;
+export default InstrumentoPage;
