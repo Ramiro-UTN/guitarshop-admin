@@ -26,7 +26,7 @@ const InstrumentosClient: React.FC<InstrumentosClientProps> = (
         <Heading tittle={`Instrumentos (${data.length})`} description="Administrador de instrumentos del sitio" />
         <Button onClick={() => router.push(`/${params.storeId}/instrumentos/new`)}>
           <Plus className="h-4 w-4 mr-2" />
-          Crear nueva
+          Crear nuevo
         </Button>
       </div>
       <DataTable columns={columns} data={data} searchKey="name" />

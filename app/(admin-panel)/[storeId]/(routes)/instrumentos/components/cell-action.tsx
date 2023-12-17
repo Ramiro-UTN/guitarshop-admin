@@ -30,7 +30,7 @@ export const CellAction: React.FC<CellActionProps> = ({
       await axios.delete(`/api/${params.storeId}/instrumentos/${data.id}`);
 
       router.refresh();
-      toast.success("Instrumento eliminada con éxito.");
+      toast.success("Instrumento eliminado con éxito.");
     } catch (error) {
       toast.error("Primero elimina todos los productos que usan este intrumento.");
     } finally {

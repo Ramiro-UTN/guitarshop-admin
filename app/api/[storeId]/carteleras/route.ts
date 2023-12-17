@@ -72,7 +72,6 @@ export async function GET(
       }
     });
 
-
     return NextResponse.json(carteleras);
 
   } catch (error) {

@@ -52,7 +52,7 @@ export async function POST(
     return NextResponse.json(instrumento);
 
   } catch (error) {
-    console.log('INSTRUMENTO_POST', error);
+    console.log('INSTRUMENTOS_POST', error);
     return new NextResponse("Internal error", { status: 500 });
   }
 }
