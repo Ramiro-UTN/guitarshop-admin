@@ -11,18 +11,18 @@ export async function POST(
     const { userId } = auth();
     const body = await req.json();
 
-    const { label, imageUrl } = body;
+    const { name, carteleraId } = body;
 
 
     if (!userId) {
       return new NextResponse("Unauthorized", { status: 401 });
     }
 
-    if (!label) {
-      return new NextResponse("Label is required", { status: 400 });
+    if (!name) {
+      return new NextResponse("Name is required", { status: 400 });
     }
-    if (!imageUrl) {
-      return new NextResponse("Image URL is required", { status: 400 });
+    if (!carteleraId) {
+      return new NextResponse("Cartelera Id is required", { status: 400 });
     }
 
     if (!params.storeId) {
@@ -40,19 +40,19 @@ export async function POST(
       return new NextResponse("Unauthorized", { status: 403 });
     }
 
-    const cartelera = await prismadb.cartelera.create({
+    const instrumento = await prismadb.instrumento.create({
       data: {
-        label,
-        imageUrl,
+        name,
+        carteleraId,
         storeId: params.storeId
       }
     })
 
 
-    return NextResponse.json(cartelera);
+    return NextResponse.json(instrumento);
 
   } catch (error) {
-    console.log('CARTELERAS_POST', error);
+    console.log('INSTRUMENTOS_POST', error);
     return new NextResponse("Internal error", { status: 500 });
   }
 }
@@ -66,16 +66,17 @@ export async function GET(
       return new NextResponse("Store ID is required", { status: 400 });
     }
 
-    const carteleras = await prismadb.cartelera.findMany({
+    const instrumentos = await prismadb.instrumento.findMany({
       where: {
         storeId: params.storeId
       }
     });
 
-    return NextResponse.json(carteleras);
+
+    return NextResponse.json(instrumentos);
 
   } catch (error) {
-    console.log("[CARTELERAS_GET]", error);
+    console.log("[INSTRUMENTOS_GET]", error);
     return new NextResponse("Internal error", { status: 500 });
   }
 }

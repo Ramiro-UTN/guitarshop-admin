@@ -5,16 +5,15 @@ import { Button } from "@/components/ui/button";
 import { Plus } from "lucide-react";
 import { useParams, useRouter } from "next/navigation";
 import { CarteleraColumn, columns } from "./columns";
-import { Separator } from "@/components/ui/separator";
 import { DataTable } from "@/components/ui/data-table";
 
-interface CartelerasProps {
+interface CartelerasClientProps {
   data: CarteleraColumn[]
 
 }
 
 
-const Carteleras: React.FC<CartelerasProps> = (
+const CartelerasClient: React.FC<CartelerasClientProps> = (
   {
     data
   }) => {
@@ -36,4 +35,4 @@ const Carteleras: React.FC<CartelerasProps> = (
   );
 }
 
-export default Carteleras;
+export default CartelerasClient;
