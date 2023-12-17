@@ -16,35 +16,35 @@ const MainNav = () => {
     {
       href: `/${params.storeId}/carteleras`,
       label: "Carteleras",
-      active: pathname === `/${params.storeId}/carteleras`
+      active: pathname.startsWith(`/${params.storeId}/carteleras`),
     },
     {
       href: `/${params.storeId}/instrumentos`,
       label: "Instrumentos",
-      active: pathname === `/${params.storeId}/instrumentos`
+      active: pathname.startsWith(`/${params.storeId}/instrumentos`),
     },
     {
       href: `/${params.storeId}/tipos`,
       label: "Tipos",
-      active: pathname === `/${params.storeId}/tipos`
+      active: pathname.startsWith(`/${params.storeId}/tipos`),
     },
     {
       href: `/${params.storeId}/tamaños`,
       label: "Tamaños",
-      active: pathname === `/${params.storeId}/tamaños`
+      active: pathname.startsWith(`/${params.storeId}/tamaños`),
     },
     {
       href: `/${params.storeId}/maderas`,
       label: "Maderas",
-      active: pathname === `/${params.storeId}/maderas`
+      active: pathname.startsWith(`/${params.storeId}/maderas`),
     },
     {
       href: `/${params.storeId}/productos`,
       label: "Productos",
-      active: pathname === `/${params.storeId}/productos`
+      active: pathname.startsWith(`/${params.storeId}/productos`),
     },
   ]
-  return ( 
+  return (
     <nav className="flex items-center gap-x-4">
       {routes.map((route) => (
         <Link
@@ -63,7 +63,7 @@ const MainNav = () => {
         </Link>
       ))}
     </nav>
-   );
+  );
 }
- 
+
 export default MainNav;
