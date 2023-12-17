@@ -1,7 +1,7 @@
 "use client";
 
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
-import { CarteleraColumn } from "./columns";
+import { InstrumentoColumn } from "./columns";
 import { Button } from "@/components/ui/button";
 import { Edit, MoreHorizontal, Trash } from "lucide-react";
 import { useParams, useRouter } from "next/navigation";
@@ -11,7 +11,7 @@ import { toast } from "react-hot-toast";
 import DeleteModal from "@/components/ui/delete-modal";
 
 interface CellActionProps {
-  data: CarteleraColumn;
+  data: InstrumentoColumn;
 };
 
 export const CellAction: React.FC<CellActionProps> = ({
@@ -22,17 +22,17 @@ export const CellAction: React.FC<CellActionProps> = ({
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
 
-  const onEdit = () => router.push(`/${params.storeId}/carteleras/${data.id}`);
+  const onEdit = () => router.push(`/${params.storeId}/instrumentos/${data.id}`);
 
   const onDelete = async () => {
     try {
       setLoading(true);
-      await axios.delete(`/api/${params.storeId}/carteleras/${data.id}`);
+      await axios.delete(`/api/${params.storeId}/instrumentos/${data.id}`);
 
       router.refresh();
-      toast.success("Cartelera eliminada con éxito.");
+      toast.success("Instrumento eliminada con éxito.");
     } catch (error) {
-      toast.error("Primero elimina todos los intrumentos que usan esta cartelera.");
+      toast.error("Primero elimina todos los productos que usan este intrumento.");
     } finally {
       setLoading(false);
       setOpen(false);

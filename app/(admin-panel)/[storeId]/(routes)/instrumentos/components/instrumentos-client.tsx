@@ -4,17 +4,16 @@ import Heading from "@/components/ui/heading";
 import { Button } from "@/components/ui/button";
 import { Plus } from "lucide-react";
 import { useParams, useRouter } from "next/navigation";
-import { CarteleraColumn, columns } from "./columns";
-import { Separator } from "@/components/ui/separator";
+import { InstrumentoColumn, columns } from "./columns";
 import { DataTable } from "@/components/ui/data-table";
 
-interface CartelerasProps {
-  data: CarteleraColumn[]
+interface InstrumentosClientProps {
+  data: InstrumentoColumn[]
 
 }
 
 
-const Carteleras: React.FC<CartelerasProps> = (
+const InstrumentosClient: React.FC<InstrumentosClientProps> = (
   {
     data
   }) => {
@@ -24,16 +23,16 @@ const Carteleras: React.FC<CartelerasProps> = (
   return (
     <>
       <div className="flex justify-between items-center border-b">
-        <Heading tittle={`Carteleras (${data.length})`} description="Administrador de carteleras del sitio" />
-        <Button onClick={() => router.push(`/${params.storeId}/carteleras/new`)}>
+        <Heading tittle={`Instrumentos (${data.length})`} description="Administrador de instrumentos del sitio" />
+        <Button onClick={() => router.push(`/${params.storeId}/instrumentos/new`)}>
           <Plus className="h-4 w-4 mr-2" />
           Crear nueva
         </Button>
       </div>
-      <DataTable columns={columns} data={data} searchKey="label" />
+      <DataTable columns={columns} data={data} searchKey="name" />
 
     </>
   );
 }
 
-export default Carteleras;
+export default InstrumentosClient;

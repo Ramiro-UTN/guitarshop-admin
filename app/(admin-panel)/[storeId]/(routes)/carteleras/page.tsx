@@ -1,5 +1,5 @@
 import prismadb from "@/lib/prismadb";
-import Carteleras from "./components/carteleras";
+import CartelerasClient from "./components/carteleras-client";
 import { CarteleraColumn } from "./components/columns";
 
 const CartelerasPage = async ({
@@ -27,7 +27,7 @@ const CartelerasPage = async ({
   return (
     <div className="flex-col">
       <div className="p-8 pt-6 ">
-        <Carteleras data={formattedCarteleras} />
+        <CartelerasClient data={formattedCarteleras} />
       </div>
     </div>
   );

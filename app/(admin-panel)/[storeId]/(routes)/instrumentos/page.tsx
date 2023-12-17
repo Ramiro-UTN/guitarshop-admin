@@ -1,5 +1,5 @@
 import prismadb from "@/lib/prismadb";
-import Instrumentos from "./components/instrumentos";
+import InstrumentosClient from "./components/instrumentos-client";
 import { InstrumentoColumn } from "./components/columns";
 
 const InstrumentosPage = async ({
@@ -32,7 +32,7 @@ const InstrumentosPage = async ({
   return (
     <div className="flex-col">
       <div className="p-8 pt-6 ">
-        <Instrumentos data={formattedInstrumentos} />
+        <InstrumentosClient data={formattedInstrumentos} />
       </div>
     </div>
   );
