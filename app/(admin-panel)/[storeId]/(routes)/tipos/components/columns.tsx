@@ -6,26 +6,21 @@ import { CellAction } from "./cell-action";
 
 
 
-export type InstrumentoColumn = {
+export type TipoColumn = {
   id: string
   name: string
-  tipos: string
-  cartelera: string
+  instrumento: string
   createdAt: string
 }
 
-export const columns: ColumnDef<InstrumentoColumn>[] = [
+export const columns: ColumnDef<TipoColumn>[] = [
   {
     accessorKey: "name",
     header: "Nombre",
   },
   {
-    accessorKey: "cartelera",
-    header: "Cartelera",
-  },
-  {
-    accessorKey: "tipos",
-    header: "Tipos",
+    accessorKey: "instrumento",
+    header: "Instrumento",
   },
   {
     accessorKey: "createdAt",

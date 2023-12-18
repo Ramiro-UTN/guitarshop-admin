@@ -57,7 +57,8 @@ model Tipo {
   storeId       String
   store         Store       @relation(fields: [storeId], references: [id])
   instrumentoId String
-  intrumento    Instrumento @relation(fields: [instrumentoId], references: [id])
+  instrumento    Instrumento @relation(fields: [instrumentoId], references: [id])
+  name          String
   productos     Producto[]
   createdAt     DateTime    @default(now())
   updatedAt     DateTime    @updatedAt
