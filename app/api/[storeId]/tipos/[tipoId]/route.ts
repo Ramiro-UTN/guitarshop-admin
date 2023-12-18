@@ -4,23 +4,23 @@ import prismadb from "@/lib/prismadb";
 
 export async function GET(
   req: Request,
-  { params }: { params: { instrumentoId: string } }
+  { params }: { params: { tipoId: string } }
 ) {
   try {
 
-    if (!params.instrumentoId) {
-      return new NextResponse("instrumentoId is required", { status: 400 });
+    if (!params.tipoId) {
+      return new NextResponse("tipoId is required", { status: 400 });
     }
 
-    const instrumento = await prismadb.instrumento.findUnique({
+    const tipo = await prismadb.tipo.findUnique({
       where: {
-        id: params.instrumentoId,
+        id: params.tipoId,
       }
     });
-    return NextResponse.json(instrumento);
+    return NextResponse.json(tipo);
 
   } catch (error) {
-    console.log('[INSTRUMENTO_GET]', error);
+    console.log('[TIPO_GET]', error);
     return new NextResponse("Internal error", { status: 500 });
   }
 
@@ -28,7 +28,7 @@ export async function GET(
 
 export async function DELETE(
   req: Request,
-  { params }: { params: { storeId: string, instrumentoId: string } }
+  { params }: { params: { storeId: string, tipoId: string } }
 ) {
   try {
     const { userId } = auth();
@@ -38,8 +38,8 @@ export async function DELETE(
     }
 
 
-    if (!params.instrumentoId) {
-      return new NextResponse("instrumentoId is required", { status: 400 });
+    if (!params.tipoId) {
+      return new NextResponse("tipoId is required", { status: 400 });
     }
 
     const storeByUserId = await prismadb.store.findFirst({
@@ -53,15 +53,15 @@ export async function DELETE(
       return new NextResponse("Unauthorized", { status: 403 });
     }
 
-    const instrumento = await prismadb.instrumento.deleteMany({
+    const tipo = await prismadb.tipo.deleteMany({
       where: {
-        id: params.instrumentoId,
+        id: params.tipoId,
       }
     });
-    return NextResponse.json(instrumento);
+    return NextResponse.json(tipo);
 
   } catch (error) {
-    console.log('[INSTRUMENTO_DELETE]', error);
+    console.log('[TIPO_DELETE]', error);
     return new NextResponse("Internal error", { status: 500 });
   }
 
@@ -69,13 +69,13 @@ export async function DELETE(
 
 export async function PATCH(
   req: Request,
-  { params }: { params: { storeId: string, instrumentoId: string } }
+  { params }: { params: { storeId: string, tipoId: string } }
 ) {
   try {
     const { userId } = auth();
     const body = await req.json();
 
-    const { name, carteleraId } = body;
+    const { name, instrumentoId } = body;
 
     if (!userId) {
       return new NextResponse("Unauthenticated", { status: 401 });
@@ -84,12 +84,12 @@ export async function PATCH(
     if (!name) {
       return new NextResponse("Name is required", { status: 400 });
     }
-    if (!carteleraId) {
-      return new NextResponse("Cartelera ID is required", { status: 400 });
+    if (!instrumentoId) {
+      return new NextResponse("Instrumento ID is required", { status: 400 });
     }
 
-    if (!params.instrumentoId) {
-      return new NextResponse("instrumentoId is required", { status: 400 });
+    if (!params.tipoId) {
+      return new NextResponse("tipoId is required", { status: 400 });
     }
 
     const storeByUserId = await prismadb.store.findFirst({
@@ -103,19 +103,19 @@ export async function PATCH(
       return new NextResponse("Unauthorized", { status: 403 });
     }
 
-    const instrumento = await prismadb.instrumento.updateMany({
+    const tipo = await prismadb.tipo.updateMany({
       where: {
-        id: params.instrumentoId,
+        id: params.tipoId,
       },
       data: {
         name,
-        carteleraId,
+        instrumentoId,
       }
     });
-    return NextResponse.json(instrumento);
+    return NextResponse.json(tipo);
 
   } catch (error) {
-    console.log('[INSTRUMENTO_PATCH]', error);
+    console.log('[TIPO_PATCH]', error);
     return new NextResponse("Internal error", { status: 500 });
   }
 

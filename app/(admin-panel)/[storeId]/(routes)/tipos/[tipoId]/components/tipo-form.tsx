@@ -92,7 +92,7 @@ const TipoForm: React.FC<TipoFormProps> = ({
   const onDelete = async () => {
     try {
       setLoading(true);
-      await axios.delete(`/api/${params.storeId}/tipos/${params.instrumentoId}`);
+      await axios.delete(`/api/${params.storeId}/tipos/${params.tipoId}`);
       router.push(`/${params.storeId}/tipos`);
       router.refresh();
       toast.success("Tipo eliminado con éxito.");
