@@ -9,6 +9,7 @@ import { CellAction } from "./cell-action";
 export type InstrumentoColumn = {
   id: string
   name: string
+  tipos: string
   cartelera: string
   createdAt: string
 }
@@ -21,6 +22,10 @@ export const columns: ColumnDef<InstrumentoColumn>[] = [
   {
     accessorKey: "cartelera",
     header: "Cartelera",
+  },
+  {
+    accessorKey: "tipos",
+    header: "Tipos",
   },
   {
     accessorKey: "createdAt",

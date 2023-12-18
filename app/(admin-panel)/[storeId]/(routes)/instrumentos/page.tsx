@@ -15,6 +15,7 @@ const InstrumentosPage = async ({
     },
     include: {
       cartelera: true,
+      tipos: true,
     },
     orderBy: {
       createdAt: 'desc'
@@ -24,6 +25,7 @@ const InstrumentosPage = async ({
   const formattedInstrumentos: InstrumentoColumn[] = instrumentos.map((instrumento) => ({
     id: instrumento.id,
     name: instrumento.name,
+    tipos: instrumento.tipos.map(tipo => tipo.name.trim()).join(', '),
     cartelera: instrumento.cartelera.label,
     createdAt: instrumento.createdAt.toLocaleString('es', { year: 'numeric', month: 'long', day: 'numeric' })
 
