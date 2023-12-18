@@ -3,7 +3,7 @@
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import axios from "axios";
-import { Cartelera, Instrumento } from "@prisma/client";
+import { Instrumento, Tipo } from "@prisma/client";
 import {
   Form,
   FormField,
@@ -33,22 +33,22 @@ import { useParams, useRouter } from "next/navigation";
 import { toast } from "react-hot-toast";
 
 
-interface InstrumentoFormProps {
-  data: Instrumento | null;
-  carteleras: Cartelera[];
+interface TipoFormProps {
+  data: Tipo | null;
+  instrumentos: Instrumento[];
 
 }
 
 const formSchema = z.object({
-  name: z.string().min(1, { message: "Ingresa el nombre del instrumento" }),
-  carteleraId: z.string().min(1, { message: "Debes agregar una cartelera" }),
+  name: z.string().min(1, { message: "Ingresa el nombre del tipo de instrumento" }),
+  instrumentoId: z.string().min(1, { message: "Debes seleccionar un instrumento" }),
 })
 
-type InstrumentoFormValues = z.infer<typeof formSchema>
+type TipoFormValues = z.infer<typeof formSchema>
 
-const InstrumentoForm: React.FC<InstrumentoFormProps> = ({
+const TipoForm: React.FC<TipoFormProps> = ({
   data,
-  carteleras
+  instrumentos
 }) => {
 
   const [open, setOpen] = useState(false);
@@ -56,30 +56,30 @@ const InstrumentoForm: React.FC<InstrumentoFormProps> = ({
   const params = useParams();
   const router = useRouter();
 
-  const title = data ? "Editar instrumento" : "Crear instrumento";
-  const description = data ? "Edita un instrumento" : "Crea un nuevo instrumento";
-  const toastMessage = data ? "Instrumento actualizado" : "Instrumento creado";
+  const title = data ? "Editar tipo" : "Crear tipo";
+  const description = data ? "Edita un tipo" : "Crea un nuevo tipo";
+  const toastMessage = data ? "Tipo actualizado" : "Tipo creado";
   const action = data ? "Guardar cambios" : "Crear";
 
-  const form = useForm<InstrumentoFormValues>({
+  const form = useForm<TipoFormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: data || {
       name: "",
-      carteleraId: "",
+      instrumentoId: "",
     }
 
   })
 
-  const onSubmit = async (values: InstrumentoFormValues) => {
+  const onSubmit = async (values: TipoFormValues) => {
     try {
       setLoading(true);
       if (!data) {
-        await axios.post(`/api/${params.storeId}/instrumentos`, values);
+        await axios.post(`/api/${params.storeId}/tipos`, values);
       } else {
-        await axios.patch(`/api/${params.storeId}/instrumentos/${params.instrumentoId}`, values);
+        await axios.patch(`/api/${params.storeId}/tipos/${params.tipoId}`, values);
       }
 
-      router.push(`/${params.storeId}/instrumentos`);
+      router.push(`/${params.storeId}/tipos`);
       router.refresh();
       toast.success(toastMessage);
     } catch (error) {
@@ -92,12 +92,12 @@ const InstrumentoForm: React.FC<InstrumentoFormProps> = ({
   const onDelete = async () => {
     try {
       setLoading(true);
-      await axios.delete(`/api/${params.storeId}/instrumentos/${params.instrumentoId}`);
-      router.push(`/${params.storeId}/instrumentos`);
+      await axios.delete(`/api/${params.storeId}/tipos/${params.instrumentoId}`);
+      router.push(`/${params.storeId}/tipos`);
       router.refresh();
-      toast.success("Instrumento eliminado con éxito.");
+      toast.success("Tipo eliminado con éxito.");
     } catch (error) {
-      toast.error("Primero elimina todos los productos que usan este instrumento.");
+      toast.error("Primero elimina todos los instrumentos que usan este tipo.");
     } finally {
       setLoading(false);
       setOpen(false);
@@ -135,10 +135,10 @@ const InstrumentoForm: React.FC<InstrumentoFormProps> = ({
                 <FormItem>
                   <FormLabel>Nombre</FormLabel>
                   <FormControl>
-                    <Input disabled={loading} placeholder="nombre del instrumento..." {...field} />
+                    <Input disabled={loading} placeholder="nombre del tipo de instrumento..." {...field} />
                   </FormControl>
                   <FormDescription>
-                    Nombre del instrumento. Ej: Guitarra, Charango, Ukelele.
+                    Nombre del tipo de instrumento. Ej: criolla, acústica, eléctrica.
                   </FormDescription>
                   <FormMessage />
                 </FormItem>
@@ -146,10 +146,10 @@ const InstrumentoForm: React.FC<InstrumentoFormProps> = ({
             />
             <FormField
               control={form.control}
-              name="carteleraId"
+              name="instrumentoId"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Cartelera</FormLabel>
+                  <FormLabel>Instrumento</FormLabel>
                   <Select
                     disabled={loading}
                     onValueChange={field.onChange}
@@ -159,23 +159,23 @@ const InstrumentoForm: React.FC<InstrumentoFormProps> = ({
                       <SelectTrigger>
                         <SelectValue
                           defaultValue={field.value}
-                          placeholder="Selecciona una cartelera"
+                          placeholder="Selecciona un instrumento"
                         />
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
-                      {carteleras.map((cartelera) => (
+                      {instrumentos.map((instrumento) => (
                         <SelectItem
-                          key={cartelera.id}
-                          value={cartelera.id}
+                          key={instrumento.id}
+                          value={instrumento.id}
                         >
-                          {cartelera.label}
+                          {instrumento.name}
                         </SelectItem>
                       ))}
                     </SelectContent>
                   </Select>
                   <FormDescription>
-                    Cartelera en la que se mostrará el instrumento
+                    Instrumento al que pertenece el tipo.
                   </FormDescription>
                   <FormMessage />
                 </FormItem>
@@ -193,4 +193,4 @@ const InstrumentoForm: React.FC<InstrumentoFormProps> = ({
   );
 }
 
-export default InstrumentoForm;
+export default TipoForm;
