@@ -8,7 +8,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useForm } from "react-hook-form";
 
-import { Formato } from "@prisma/client";
+import { Madera } from "@prisma/client";
 import Heading from "@/components/ui/heading";
 import { Separator } from "@/components/ui/separator";
 import { useState } from "react";
@@ -18,17 +18,17 @@ import { useParams, useRouter } from "next/navigation";
 import { toast } from "react-hot-toast";
 
 
-interface FormatoFormProps {
-  data: Formato | null
+interface MaderaFormProps {
+  data: Madera | null
 }
 
 const formSchema = z.object({
   name: z.string().min(1, { message: "Ingresa el nombre del formato" }),
 })
 
-type FormatoFormValues = z.infer<typeof formSchema>
+type MaderaFormValues = z.infer<typeof formSchema>
 
-const FormatoForm: React.FC<FormatoFormProps> = ({
+const MaderaForm: React.FC<MaderaFormProps> = ({
   data
 }) => {
 
@@ -37,12 +37,12 @@ const FormatoForm: React.FC<FormatoFormProps> = ({
   const params = useParams();
   const router = useRouter();
 
-  const title = data ? "Editar formato" : "Crear formato";
-  const description = data ? "Edita un formato" : "Crea un nuevo formato";
-  const toastMessage = data ? "Formato actualizado" : "Formato creado";
+  const title = data ? "Editar madera" : "Crear madera";
+  const description = data ? "Edita una madera" : "Crea un nueva madera";
+  const toastMessage = data ? "Madera actualizada" : "Madera creada";
   const action = data ? "Guardar cambios" : "Crear";
 
-  const form = useForm<FormatoFormValues>({
+  const form = useForm<MaderaFormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: data || {
       name: "",
@@ -50,16 +50,16 @@ const FormatoForm: React.FC<FormatoFormProps> = ({
 
   })
 
-  const onSubmit = async (values: FormatoFormValues) => {
+  const onSubmit = async (values: MaderaFormValues) => {
     try {
       setLoading(true);
       if (!data) {
-        await axios.post(`/api/${params.storeId}/formatos`, values);
+        await axios.post(`/api/${params.storeId}/maderas`, values);
       } else {
-        await axios.patch(`/api/${params.storeId}/formatos/${params.formatoId}`, values);
+        await axios.patch(`/api/${params.storeId}/maderas/${params.maderaId}`, values);
       }
 
-      router.push(`/${params.storeId}/formatos`);
+      router.push(`/${params.storeId}/maderas`);
       router.refresh();
       toast.success(toastMessage);
     } catch (error) {
@@ -72,12 +72,12 @@ const FormatoForm: React.FC<FormatoFormProps> = ({
   const onDelete = async () => {
     try {
       setLoading(true);
-      await axios.delete(`/api/${params.storeId}/formatos/${params.formatoId}`);
-      router.push(`/${params.storeId}/formatos`);
+      await axios.delete(`/api/${params.storeId}/maderas/${params.maderaId}`);
+      router.push(`/${params.storeId}/maderas`);
       router.refresh();
-      toast.success("Formato eliminado con éxito.");
+      toast.success("Madera eliminada con éxito.");
     } catch (error) {
-      toast.error("Primero elimina todos los productos que usan este formato.");
+      toast.error("Primero elimina todos los productos que usan esta madera.");
     } finally {
       setLoading(false);
       setOpen(false);
@@ -114,12 +114,12 @@ const FormatoForm: React.FC<FormatoFormProps> = ({
               name="name"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Nombre del Formato</FormLabel>
+                  <FormLabel>Nombre</FormLabel>
                   <FormControl>
-                    <Input placeholder="Formato..." {...field} />
+                    <Input placeholder="Madera..." {...field} />
                   </FormControl>
                   <FormDescription>
-                    Formato de caja del instrumento.
+                    Nombre de la madera.
                   </FormDescription>
                   <FormMessage />
                 </FormItem>
@@ -135,4 +135,4 @@ const FormatoForm: React.FC<FormatoFormProps> = ({
   );
 }
 
-export default FormatoForm;
+export default MaderaForm;

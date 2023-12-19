@@ -37,7 +37,7 @@ export async function POST(
       return new NextResponse("Unauthorized", { status: 403 });
     }
 
-    const formato = await prismadb.formato.create({
+    const madera = await prismadb.madera.create({
       data: {
         name,
         storeId: params.storeId
@@ -45,10 +45,10 @@ export async function POST(
     })
 
 
-    return NextResponse.json(formato);
+    return NextResponse.json(madera);
 
   } catch (error) {
-    console.log('FORMATOS_POST', error);
+    console.log('MADERAS_POST', error);
     return new NextResponse("Internal error", { status: 500 });
   }
 }
@@ -62,16 +62,16 @@ export async function GET(
       return new NextResponse("Store ID is required", { status: 400 });
     }
 
-    const formatos = await prismadb.formato.findMany({
+    const maderas = await prismadb.madera.findMany({
       where: {
         storeId: params.storeId
       }
     });
 
-    return NextResponse.json(formatos);
+    return NextResponse.json(maderas);
 
   } catch (error) {
-    console.log("[FORMATOS_GET]", error);
+    console.log("[MADERAS_GET]", error);
     return new NextResponse("Internal error", { status: 500 });
   }
 }
