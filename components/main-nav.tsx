@@ -29,9 +29,9 @@ const MainNav = () => {
       active: pathname.startsWith(`/${params.storeId}/tipos`),
     },
     {
-      href: `/${params.storeId}/tamaños`,
-      label: "Tamaños",
-      active: pathname.startsWith(`/${params.storeId}/tamaños`),
+      href: `/${params.storeId}/formatos`,
+      label: "Formatos",
+      active: pathname.startsWith(`/${params.storeId}/formatos`),
     },
     {
       href: `/${params.storeId}/maderas`,
