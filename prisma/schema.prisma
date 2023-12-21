@@ -45,6 +45,7 @@ model Instrumento {
   name        String
   tipos       Tipo[]
   productos   Producto[]
+  formatos    Formato[]
   createdAt   DateTime   @default(now())
   updatedAt   DateTime   @updatedAt
 
@@ -68,15 +69,18 @@ model Tipo {
 }
 
 model Formato {
-  id        String     @id @default(uuid())
-  storeId   String
-  store     Store      @relation(fields: [storeId], references: [id])
-  name      String
-  productos Producto[]
-  createdAt DateTime   @default(now())
-  updatedAt DateTime   @updatedAt
+  id            String      @id @default(uuid())
+  storeId       String
+  store         Store       @relation(fields: [storeId], references: [id])
+  instrumentoId String
+  instrumento   Instrumento @relation(fields: [instrumentoId], references: [id])
+  name          String
+  productos     Producto[]
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
 
   @@index([storeId])
+  @@index([instrumentoId])
 }
 
 model Madera {
@@ -97,9 +101,9 @@ model Producto {
   name          String
   instrumentoId String
   instrumento   Instrumento @relation(fields: [instrumentoId], references: [id])
-  tipoId        String
+  tipoId        String      @default("")
   tipo          Tipo        @relation(fields: [tipoId], references: [id])
-  formatoId     String
+  formatoId     String      @default("")
   formato       Formato     @relation(fields: [formatoId], references: [id])
   fondo         String
   tapa          String
@@ -109,6 +113,9 @@ model Producto {
   mastil        String
   price         Decimal
   images        Image[]
+  exhibir       Boolean     @default(false)
+  archivar      Boolean     @default(false)
+  audioUrl      String      @default("")
   createdAt     DateTime    @default(now())
   updatedAt     DateTime    @updatedAt
 

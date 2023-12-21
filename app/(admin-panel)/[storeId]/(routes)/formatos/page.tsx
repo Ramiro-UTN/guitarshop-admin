@@ -11,6 +11,9 @@ const FormatosPage = async ({
     where: {
       storeId: params.storeId,
     },
+    include: {
+      instrumento: true,
+    },
     orderBy: {
       createdAt: 'desc'
     }
@@ -19,6 +22,7 @@ const FormatosPage = async ({
   const formattedFormatos: FormatoColumn[] = formatos.map((formato) => ({
     id: formato.id,
     name: formato.name,
+    instrumento: formato.instrumento.name,
     createdAt: formato.createdAt.toLocaleString('es',{year:'numeric', month:'long', day:'numeric'})
 
   }));

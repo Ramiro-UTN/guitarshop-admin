@@ -11,8 +11,9 @@ export async function POST(
     const { userId } = auth();
     const body = await req.json();
 
-    const { name, instrumentoId } = body;
-
+    //tipoId es opcional
+    const { name, instrumentoId, tipoId } = body;
+    console.log("BODY: ",body)
 
     if (!userId) {
       return new NextResponse("Unauthorized", { status: 401 });
@@ -22,8 +23,10 @@ export async function POST(
       return new NextResponse("Name is required", { status: 400 });
     }
     if (!instrumentoId) {
-      return new NextResponse("Instrumento ID is required", { status: 400 });
+      return new NextResponse("Instrumento Id is required", { status: 400 });
     }
+
+  
 
     if (!params.storeId) {
       return new NextResponse("Store id is required", { status: 400 });
@@ -40,42 +43,36 @@ export async function POST(
       return new NextResponse("Unauthorized", { status: 403 });
     }
 
-    const formato = await prismadb.formato.create({
-      data: {
-        name,
-        instrumentoId,
-        storeId: params.storeId
-      }
-    });
 
 
-    return NextResponse.json(formato);
+    return NextResponse.json("OK");
 
   } catch (error) {
-    console.log('FORMATOS_POST', error);
+    console.log('PRODUCTOS_ERROR', error);
     return new NextResponse("Internal error", { status: 500 });
   }
 }
 
-export async function GET(
-  req: Request,
-  { params }: { params: { storeId: string } }
-) {
-  try {
-    if (!params.storeId) {
-      return new NextResponse("Store ID is required", { status: 400 });
-    }
+// export async function GET(
+//   req: Request,
+//   { params }: { params: { storeId: string } }
+// ) {
+//   try {
+//     if (!params.storeId) {
+//       return new NextResponse("Store ID is required", { status: 400 });
+//     }
 
-    const formatos = await prismadb.formato.findMany({
-      where: {
-        storeId: params.storeId
-      }
-    });
+//     const instrumentos = await prismadb.instrumento.findMany({
+//       where: {
+//         storeId: params.storeId
+//       }
+//     });
 
-    return NextResponse.json(formatos);
 
-  } catch (error) {
-    console.log("[FORMATOS_GET]", error);
-    return new NextResponse("Internal error", { status: 500 });
-  }
-}
+//     return NextResponse.json(instrumentos);
+
+//   } catch (error) {
+//     console.log("[INSTRUMENTOS_GET]", error);
+//     return new NextResponse("Internal error", { status: 500 });
+//   }
+// }

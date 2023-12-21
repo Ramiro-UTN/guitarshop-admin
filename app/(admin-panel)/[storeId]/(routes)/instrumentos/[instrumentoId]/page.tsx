@@ -4,7 +4,7 @@ import InstrumentoForm from "./components/instrumento-form";
 const InstrumentoPage = async ({
   params
 }: {
-  params: { carteleraId: string, instrumentoId: string }
+  params: { storeId: string, instrumentoId: string }
 }) => {
 
   const instrumento = await prismadb.instrumento.findUnique({
@@ -15,9 +15,11 @@ const InstrumentoPage = async ({
 
   const carteleras = await prismadb.cartelera.findMany({
     where: {
-      id: params.carteleraId
+      storeId: params.storeId,
     }
   })
+
+  console.log("CARTELERAS: ", carteleras);
 
   return (
     <div className="flex-col">
