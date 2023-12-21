@@ -47,14 +47,15 @@ interface ProductoFormProps {
 }
 
 const formSchema = z.object({
-  name: z.string().min(1, { message: "Ingresa el nombre del producto" }),
-  audioUrl: z.union([z.string().min(4, { message: "Debes seleccionar un archivo de audio" }), z.string().length(0)])
+  name: z.string().min(1, { message: "Ingresa el nombre del producto." }),
+  price: z.coerce.number().min(1, { message: "Ingresa un precio." }),
+  audioUrl: z.union([z.string().min(4, { message: "Debes seleccionar un archivo de audio." }), z.string().length(0)])
     .optional().transform(e => e === "" ? undefined : e),
   images: z.object({ url: z.string() }).array(),
-  instrumentoId: z.string().min(1, { message: "Debes seleccionar un instrumento" }),
-  tipoId: z.union([z.string().min(4, { message: "Debes seleccionar un tipo de instrumento" }), z.string().length(0)])
+  instrumentoId: z.string().min(1, { message: "Debes seleccionar un instrumento." }),
+  tipoId: z.union([z.string().min(4, { message: "Debes seleccionar un tipo de instrumento." }), z.string().length(0)])
     .optional().transform(e => e === "" ? undefined : e),
-  formatoId: z.union([z.string().min(4, { message: "Debes seleccionar un formato" }), z.string().length(0)])
+  formatoId: z.union([z.string().min(4, { message: "Debes seleccionar un formato." }), z.string().length(0)])
     .optional().transform(e => e === "" ? undefined : e),
   fondo: z.string().min(4, { message: "Ingresa una opción." }),
   tapa: z.string().min(4, { message: "Ingresa una opción." }),
@@ -100,8 +101,12 @@ const ProductoForm: React.FC<ProductoFormProps> = ({
   // console.log("TIPOS: ", instrumentos[0].tipos);
   const form = useForm<ProductoFormValues>({
     resolver: zodResolver(formSchema),
-    defaultValues: data || {
+    defaultValues: data ? {
+      ...data,
+      price: parseFloat(String(data?.price)),
+    } : {
       name: "",
+      price: 0,
       audioUrl: "",
       images: [],
       instrumentoId: "",
@@ -121,23 +126,23 @@ const ProductoForm: React.FC<ProductoFormProps> = ({
 
   const onSubmit = async (values: ProductoFormValues) => {
     console.log("PRODUCTO_VALUES: ", values);
-    // try {
-    //   setLoading(true);
-    //   if (!data) {
-    //     await axios.post(`/api/${params.storeId}/productos`, values);
-    //     console.log("VALUES: ", values);
-    //   } else {
-    //     await axios.patch(`/api/${params.storeId}/productos/${params.productoId}`, values);
-    //   }
+    try {
+      setLoading(true);
+      if (!data) {
+        await axios.post(`/api/${params.storeId}/productos`, values);
+        console.log("VALUES: ", values);
+      } else {
+        await axios.patch(`/api/${params.storeId}/productos/${params.productoId}`, values);
+      }
 
-    //   // router.push(`/${params.storeId}/productos`);
-    //   // router.refresh();
-    //   // toast.success(toastMessage);
-    // } catch (error) {
-    //   toast.error("Algo salió mal, vuelva a intentarlo.");
-    // } finally {
-    //   setLoading(false);
-    // }
+      router.push(`/${params.storeId}/productos`);
+      router.refresh();
+      toast.success(toastMessage);
+    } catch (error) {
+      toast.error("Algo salió mal, vuelva a intentarlo.");
+    } finally {
+      setLoading(false);
+    }
   }
 
   const onDelete = async () => {
@@ -215,7 +220,19 @@ const ProductoForm: React.FC<ProductoFormProps> = ({
                 </FormItem>
               )}
             />
-
+            <FormField
+              control={form.control}
+              name="price"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Price</FormLabel>
+                  <FormControl>
+                    <Input type="number" disabled={loading} placeholder="9.99" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
 
             <FormField
               control={form.control}
