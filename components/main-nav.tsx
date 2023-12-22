@@ -43,6 +43,11 @@ const MainNav = () => {
       label: "Productos",
       active: pathname.startsWith(`/${params.storeId}/productos`),
     },
+    {
+      href: `/${params.storeId}/ventas`,
+      label: "Ventas",
+      active: pathname.startsWith(`/${params.storeId}/ventas`),
+    },
   ]
   return (
     <nav className="flex items-center gap-x-4">
