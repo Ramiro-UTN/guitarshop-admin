@@ -75,7 +75,7 @@ export async function PATCH(
     const { userId } = auth();
     const body = await req.json();
 
-    const { name } = body;
+    const { name, instrumentoId } = body;
 
     if (!userId) {
       return new NextResponse("Unauthenticated", { status: 401 });
@@ -83,6 +83,9 @@ export async function PATCH(
 
     if (!name) {
       return new NextResponse("Name is required", { status: 400 });
+    }
+    if (!instrumentoId) {
+      return new NextResponse("Instrumento ID is required", { status: 400 });
     }
 
     if (!params.formatoId) {
@@ -106,6 +109,7 @@ export async function PATCH(
       },
       data: {
         name,
+        instrumentoId,
       }
     });
     return NextResponse.json(formato);

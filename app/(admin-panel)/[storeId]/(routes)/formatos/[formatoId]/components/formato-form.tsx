@@ -3,12 +3,27 @@
 import axios from "axios";
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Form, FormField, FormLabel, FormControl, FormItem, FormMessage, FormDescription } from "@/components/ui/form";
+import {
+  Form,
+  FormField,
+  FormLabel,
+  FormControl,
+  FormItem,
+  FormMessage,
+  FormDescription
+} from "@/components/ui/form";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useForm } from "react-hook-form";
 
-import { Formato } from "@prisma/client";
+import { Formato, Instrumento } from "@prisma/client";
 import Heading from "@/components/ui/heading";
 import { Separator } from "@/components/ui/separator";
 import { useState } from "react";
@@ -19,17 +34,20 @@ import { toast } from "react-hot-toast";
 
 
 interface FormatoFormProps {
-  data: Formato | null
+  data: Formato | null;
+  instrumentos: Instrumento[];
 }
 
 const formSchema = z.object({
-  name: z.string().min(1, { message: "Ingresa el nombre del formato" }),
+  name: z.string().min(1, { message: "Ingresa el nombre del formato." }),
+  instrumentoId: z.string().min(1, { message: "Ingresa un instrumento." }),
 })
 
 type FormatoFormValues = z.infer<typeof formSchema>
 
 const FormatoForm: React.FC<FormatoFormProps> = ({
-  data
+  data,
+  instrumentos
 }) => {
 
   const [open, setOpen] = useState(false);
@@ -46,6 +64,7 @@ const FormatoForm: React.FC<FormatoFormProps> = ({
     resolver: zodResolver(formSchema),
     defaultValues: data || {
       name: "",
+      instrumentoId: "",
     }
 
   })
@@ -107,8 +126,8 @@ const FormatoForm: React.FC<FormatoFormProps> = ({
       <Separator />
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 w-full">
-          
-          <div className="grid sm:grid-cols-1 md:grid-cols-3">
+
+          <div className="grid sm:grid-cols-1 md:grid-cols-3 gap-8">
             <FormField
               control={form.control}
               name="name"
@@ -120,6 +139,43 @@ const FormatoForm: React.FC<FormatoFormProps> = ({
                   </FormControl>
                   <FormDescription>
                     Formato de caja del instrumento.
+                  </FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="instrumentoId"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Instrumento</FormLabel>
+                  <Select
+                    disabled={loading}
+                    onValueChange={field.onChange}
+                    value={field.value} defaultValue={field.value}
+                  >
+                    <FormControl>
+                      <SelectTrigger>
+                        <SelectValue
+                          defaultValue={field.value}
+                          placeholder="Selecciona un instrumento..."
+                        />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      {instrumentos.map((item) => (
+                        <SelectItem
+                          key={item.id}
+                          value={item.id}
+                        >
+                          {item.name}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                  <FormDescription>
+                    Instrumento al que pertenece este formato.
                   </FormDescription>
                   <FormMessage />
                 </FormItem>

@@ -6,21 +6,16 @@ import { CellAction } from "./cell-action";
 
 
 
-export type FormatoColumn = {
+export type ProductoColumn = {
   id: string
   name: string
-  instrumento: string
   createdAt: string
 }
 
-export const columns: ColumnDef<FormatoColumn>[] = [
+export const columns: ColumnDef<ProductoColumn>[] = [
   {
     accessorKey: "name",
     header: "Nombre",
-  },
-  {
-    accessorKey: "instrumento",
-    header: "Instrumento",
   },
   {
     accessorKey: "createdAt",

@@ -11,7 +11,7 @@ export async function POST(
     const { userId } = auth();
     const body = await req.json();
 
-    const { name } = body;
+    const { name, instrumentoId } = body;
 
 
     if (!userId) {
@@ -21,7 +21,10 @@ export async function POST(
     if (!name) {
       return new NextResponse("Name is required", { status: 400 });
     }
-  
+    if (!instrumentoId) {
+      return new NextResponse("Instrumento ID is required", { status: 400 });
+    }
+
     if (!params.storeId) {
       return new NextResponse("Store id is required", { status: 400 });
     }
@@ -40,9 +43,10 @@ export async function POST(
     const formato = await prismadb.formato.create({
       data: {
         name,
+        instrumentoId,
         storeId: params.storeId
       }
-    })
+    });
 
 
     return NextResponse.json(formato);
