@@ -115,7 +115,7 @@ export async function POST(
 
 
 
-    console.log("PRODUCT", producto);
+    console.log("PRODUCTO_POST: ", producto);
 
 
     return NextResponse.json(producto);
