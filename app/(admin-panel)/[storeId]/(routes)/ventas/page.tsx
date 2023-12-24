@@ -26,6 +26,7 @@ const VentasPage = async ({
 
   const formattedVentas: VentaColumn[] = ventas.map((venta) => ({
     id: venta.id,
+    nombre: `${venta.nombre} ${venta.apellido}`, 
     telefono: venta.telefono,
     ciudad: venta.ciudad,
     provincia: venta.provincia,

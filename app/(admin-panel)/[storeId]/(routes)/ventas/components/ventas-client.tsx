@@ -23,7 +23,7 @@ export const VentasClient: React.FC<VentasClientProps> = ({
       />
 
       <Separator />
-      <DataTable searchKey="products" columns={columns} data={data} />
+      <DataTable searchKey="nombre" columns={columns} data={data} />
     </>
   )
 }

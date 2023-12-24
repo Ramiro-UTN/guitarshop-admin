@@ -6,6 +6,7 @@ import { ColumnDef } from "@tanstack/react-table"
 
 export type VentaColumn = {
   id: string
+  nombre: string
   telefono: string
   ciudad: string
   provincia: string
@@ -23,8 +24,16 @@ export const columns: ColumnDef<VentaColumn>[] = [
     header: "Productos",
   },
   {
+    accessorKey: "nombre",
+    header: "Nombre",
+  },
+  {
     accessorKey: "telefono",
     header: "Teléfono",
+  },
+  {
+    accessorKey: "direccion",
+    header: "Dirección",
   },
   {
     accessorKey: "codPostal",
@@ -38,10 +47,7 @@ export const columns: ColumnDef<VentaColumn>[] = [
     accessorKey: "provincia",
     header: "Provincia",
   },
-  {
-    accessorKey: "direccion",
-    header: "Direccion",
-  },
+  
   {
     accessorKey: "precioTotal",
     header: "Precio Total",

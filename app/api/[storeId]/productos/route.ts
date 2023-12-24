@@ -102,7 +102,7 @@ export async function POST(
         archivar,
         audioUrl,
         storeId: params.storeId,
-        images:  {
+        images: {
           createMany: {
             data: [
               ...images.map((image: { url: string }) => image)
@@ -131,16 +131,38 @@ export async function GET(
   { params }: { params: { storeId: string } }
 ) {
   try {
+
+    const { searchParams } = new URL(req.url);
+    const instrumentoId = searchParams.get("instrumentoId") || undefined;
+    const tipoId = searchParams.get("tipoId") || undefined;
+    const formatoId = searchParams.get("formatoId") || undefined;
+    const exhibir = searchParams.get("exhibir") || undefined;
+
     if (!params.storeId) {
-      return new NextResponse("Store ID is required", { status: 400 });
+      return new NextResponse("Store id is required", { status: 400 });
     }
+
+   
 
     const productos = await prismadb.producto.findMany({
       where: {
-        storeId: params.storeId
+        storeId: params.storeId,
+        instrumentoId,
+        tipoId,
+        formatoId,
+        exhibir: exhibir ? true : undefined,
+        archivar: false
+      },
+      include: {
+        images: true,
+        tipo: true,
+        formato: true,
+        instrumento: true,
+      },
+      orderBy: {
+        createdAt: 'desc'
       }
     });
-
 
     return NextResponse.json(productos);
 

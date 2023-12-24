@@ -21,7 +21,7 @@ model Store {
   maderas      Madera[]
   tipos        Tipo[]
   productos    Producto[]
-  ventas        Venta[]
+  ventas       Venta[]
 }
 
 model Cartelera {
@@ -119,7 +119,7 @@ model Producto {
   audioUrl      String      @default("")
   createdAt     DateTime    @default(now())
   updatedAt     DateTime    @updatedAt
-  itemsVenta     ItemVenta[]
+  itemsVenta    ItemVenta[]
 
   @@index([storeId])
   @@index([instrumentoId])
@@ -144,6 +144,8 @@ model Venta {
   store     Store       @relation(fields: [storeId], references: [id])
   items     ItemVenta[]
   pagado    Boolean     @default(false)
+  nombre    String      @default("")
+  apellido  String      @default("")
   telefono  String      @default("")
   ciudad    String      @default("")
   provincia String      @default("")
