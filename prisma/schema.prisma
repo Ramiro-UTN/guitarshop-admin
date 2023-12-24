@@ -21,6 +21,7 @@ model Store {
   maderas      Madera[]
   tipos        Tipo[]
   productos    Producto[]
+  ventas       Venta[]
 }
 
 model Cartelera {
@@ -118,6 +119,7 @@ model Producto {
   audioUrl      String      @default("")
   createdAt     DateTime    @default(now())
   updatedAt     DateTime    @updatedAt
+  itemsVenta    ItemVenta[]
 
   @@index([storeId])
   @@index([instrumentoId])
@@ -133,5 +135,35 @@ model Image {
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
 
+  @@index([productoId])
+}
+
+model Venta {
+  id        String      @id @default(uuid())
+  storeId   String
+  store     Store       @relation(fields: [storeId], references: [id])
+  items     ItemVenta[]
+  pagado    Boolean     @default(false)
+  nombre    String      @default("")
+  apellido  String      @default("")
+  telefono  String      @default("")
+  ciudad    String      @default("")
+  provincia String      @default("")
+  direccion String      @default("")
+  codPostal String      @default("")
+  createdAt DateTime    @default(now())
+  updatedAt DateTime    @updatedAt
+
+  @@index([storeId])
+}
+
+model ItemVenta {
+  id         String   @id @default(uuid())
+  ventaId    String
+  venta      Venta    @relation(fields: [ventaId], references: [id])
+  productoId String
+  producto   Producto @relation(fields: [productoId], references: [id])
+
+  @@index([ventaId])
   @@index([productoId])
 }

@@ -9,11 +9,6 @@ const MainNav = () => {
   const params = useParams();
   const routes = [
     {
-      href: `/${params.storeId}`,
-      label: "Resumen",
-      active: pathname === `/${params.storeId}`
-    },
-    {
       href: `/${params.storeId}/carteleras`,
       label: "Carteleras",
       active: pathname.startsWith(`/${params.storeId}/carteleras`),
@@ -42,6 +37,11 @@ const MainNav = () => {
       href: `/${params.storeId}/productos`,
       label: "Productos",
       active: pathname.startsWith(`/${params.storeId}/productos`),
+    },
+    {
+      href: `/${params.storeId}/ventas`,
+      label: "Ventas",
+      active: pathname.startsWith(`/${params.storeId}/ventas`),
     },
   ]
   return (

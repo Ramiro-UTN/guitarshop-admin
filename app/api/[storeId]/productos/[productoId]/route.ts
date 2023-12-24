@@ -15,6 +15,13 @@ export async function GET(
     const producto = await prismadb.producto.findUnique({
       where: {
         id: params.productoId,
+      },
+      include: {
+        images: true,
+        instrumento: true,
+        tipo: true,
+        formato: true,
+
       }
     });
     return NextResponse.json(producto);

@@ -15,7 +15,7 @@ export default async function RootPage() {
     }
   });
 
-  if (store) redirect(`/${store.id}`);
+  if (store) redirect(`/${store.id}/carteleras`);
 
   return null;
 }

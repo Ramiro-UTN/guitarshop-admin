@@ -15,6 +15,11 @@ export async function GET(
     const instrumento = await prismadb.instrumento.findUnique({
       where: {
         id: params.instrumentoId,
+      },
+      include: {
+        cartelera:true,
+        tipos: true,
+        formatos:true,
       }
     });
     return NextResponse.json(instrumento);
